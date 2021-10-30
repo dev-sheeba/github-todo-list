@@ -41,6 +41,11 @@ class TaskAdapter(private val listener: OnTaskActionListener) :
                 binding.root.setOnClickListener {
                     listener.onItemClick(task)
                 }
+
+                binding.taskCardView.setOnLongClickListener {
+                    taskCardView.isChecked = !taskCardView.isChecked
+                    true
+                }
             }
         }
     }

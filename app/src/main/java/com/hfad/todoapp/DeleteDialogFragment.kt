@@ -21,13 +21,12 @@ class DeleteDialogFragment(val listener: DeleteConfirmationDialogFragment.OnDele
     ): View? {
         binding = FragmentDeleteDialogBinding.inflate(layoutInflater, container, false)
         binding.deleteDialog.setOnClickListener {
+            this.dismiss()
             val dialog = DeleteConfirmationDialogFragment(listener, task)
-            dialog.show(childFragmentManager, "DeleteConfirmationDialogFragment")
+            dialog.show(parentFragmentManager, "DeleteConfirmationDialogFragment")
         }
 
         return binding.root
     }
 
 }
-
-//val listener: DeleteConfirmationDialogFragment.OnDeleteConfirmListener

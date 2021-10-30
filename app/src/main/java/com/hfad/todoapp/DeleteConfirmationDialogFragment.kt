@@ -14,7 +14,7 @@ class DeleteConfirmationDialogFragment(val listener: OnDeleteConfirmListener, va
 
     interface OnDeleteConfirmListener {
         fun onDeleteConfirm(task: Task, dialog: DeleteConfirmationDialogFragment)
-        fun onCancel(dialog: DeleteConfirmationDialogFragment)
+        fun onCancel(task: Task,dialog: DeleteConfirmationDialogFragment)
     }
 
     private lateinit var binding: FragmentDeleteConfirmationDialogBinding
@@ -26,18 +26,14 @@ class DeleteConfirmationDialogFragment(val listener: OnDeleteConfirmListener, va
     ): View? {
         binding = FragmentDeleteConfirmationDialogBinding.inflate(layoutInflater, container, false)
         setStyle(DialogFragment.STYLE_NORMAL, R.style.Theme_MaterialComponents_BottomSheetDialog)
-        binding.deleteConfirmation.setOnClickListener {
+        binding.deleteConfirmationBtn.setOnClickListener {
             listener.onDeleteConfirm(task, this)
         }
 
         binding.cancelButton.setOnLongClickListener {
-            listener.onCancel(this)
+            listener.onCancel(task,this)
             true
         }
         return binding.root
     }
-
-
-
-
 }

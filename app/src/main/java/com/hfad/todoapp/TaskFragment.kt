@@ -1,15 +1,11 @@
 package com.hfad.todoapp
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -20,7 +16,7 @@ import com.hfad.todoapp.ui.AddDialogListener
 import com.hfad.todoapp.ui.TaskViewModel
 
 class TaskFragment : Fragment(), AddDialogListener, SearchView.OnQueryTextListener,
-    TaskAdapter.OnTaskActionListener, DeleteConfirmationDialogFragment.OnDeleteConfirmListener {
+    TaskAdapter.OnTaskActionListener, DeleteConfirmationDialogFragment.OnDeleteConfirmListener, EditTaskDialogFragment.OnEditTaskListener {
 
     private val viewModel: TaskViewModel by viewModels {
         TaskViewModel.TaskViewModelFactory((requireActivity().application as TasksApplication).repository)
@@ -112,7 +108,7 @@ class TaskFragment : Fragment(), AddDialogListener, SearchView.OnQueryTextListen
     }
 
     override fun onItemClick(task: Task) {
-        val dialog = EditDialogFragment()
+        val dialog = EditTaskDialogFragment(task, this)
         dialog.show(childFragmentManager, "EditDialogFragment")
     }
 
@@ -155,7 +151,12 @@ class TaskFragment : Fragment(), AddDialogListener, SearchView.OnQueryTextListen
         dialog.dismiss()
     }
 
-    override fun onCancel(dialog: DeleteConfirmationDialogFragment) {
+    override fun onCancel(task: Task,dialog: DeleteConfirmationDialogFragment) {
+        dialog.dismiss()
+    }
+
+    override fun onEditDoneClick(item: Task, dialog: EditTaskDialogFragment) {
+        viewModel.update(item)
         dialog.dismiss()
     }
 

@@ -6,7 +6,7 @@ import com.hfad.todoapp.database.db.TaskDao
 import com.hfad.todoapp.database.db.TaskRoomDatabase
 import kotlinx.coroutines.flow.Flow
 
-class TaskRepository(private val taskDao: TaskDao) {
+open class TaskRepository(private val taskDao: TaskDao) {
 
     val allTasks: Flow<List<Task>> = taskDao.getAll()
 
